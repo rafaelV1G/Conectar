@@ -1,77 +1,478 @@
-const nav = document.getElementById("nav");
-const menuToggle = document.querySelector(".menu-toggle");
-const modal = document.getElementById("modal");
-const modalTitle = document.getElementById("modalTitle");
-const modalText = document.getElementById("modalText");
+// ======================================================
+// CONECTAR IMÓVEIS E SERVIÇOS
+// JAVASCRIPT
+// ======================================================
 
-menuToggle.addEventListener("click", () => nav.classList.toggle("open"));
-document.querySelectorAll(".nav a").forEach(link => {
-  link.addEventListener("click", () => nav.classList.remove("open"));
-});
 
-document.querySelectorAll("[data-scroll]").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelector(button.dataset.scroll)?.scrollIntoView({behavior:"smooth"});
-  });
-});
+// ======================================================
+// CONFIGURAÇÃO DO WHATSAPP
+// ======================================================
 
-function openModal(title, text) {
-  modalTitle.textContent = title;
-  modalText.textContent = text;
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden", "false");
+// COLOQUE SEU NÚMERO AQUI
+//
+// Exemplo para:
+// (34) 99999-9999
+//
+// Use:
+// 5534999999999
+//
+// SEM +, espaços, parênteses ou hífen.
+
+const WHATSAPP_NUMBER = "553491483936";
+
+
+const WHATSAPP_MESSAGE =
+    "Olá! Vim pelo site da Conectar Imóveis e Serviços e gostaria de saber mais.";
+
+
+// ======================================================
+// FUNÇÃO DO WHATSAPP
+// ======================================================
+
+function abrirWhatsApp(mensagem = WHATSAPP_MESSAGE) {
+
+    const numero = WHATSAPP_NUMBER.replace(/\D/g, "");
+
+    if (!numero || numero.length < 12) {
+
+        alert(
+            "Configure seu número de WhatsApp no arquivo script.js."
+        );
+
+        return;
+    }
+
+    const texto = encodeURIComponent(mensagem);
+
+    const link =
+        "https://wa.me/" +
+        numero +
+        "?text=" +
+        texto;
+
+    window.open(link, "_blank");
+
 }
-function closeModal() {
-  modal.classList.remove("open");
-  modal.setAttribute("aria-hidden", "true");
+
+
+// ======================================================
+// MENU MOBILE
+// ======================================================
+
+const mobileMenu =
+    document.getElementById("mobileMenu");
+
+const nav =
+    document.getElementById("nav");
+
+
+if (mobileMenu && nav) {
+
+    mobileMenu.addEventListener("click", function () {
+
+        nav.classList.toggle("open");
+
+        if (nav.classList.contains("open")) {
+
+            mobileMenu.textContent = "✕";
+
+        } else {
+
+            mobileMenu.textContent = "☰";
+
+        }
+
+    });
+
 }
-document.getElementById("modalClose").addEventListener("click", closeModal);
-modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
 
-document.querySelectorAll(".details").forEach(button => {
-  button.addEventListener("click", () => openModal(
-    button.dataset.title,
-    "Este anúncio é um exemplo do projeto acadêmico. Na versão final, podemos colocar fotos reais, localização, características, valor e um botão de contato."
-  ));
+
+document.querySelectorAll("nav a").forEach(function (link) {
+
+    link.addEventListener("click", function () {
+
+        if (nav) {
+
+            nav.classList.remove("open");
+
+        }
+
+        if (mobileMenu) {
+
+            mobileMenu.textContent = "☰";
+
+        }
+
+    });
+
 });
 
-document.querySelectorAll(".service-card").forEach(card => {
-  card.addEventListener("click", () => openModal(
-    card.dataset.service,
-    "Você pode transformar esta categoria em uma busca completa, mostrando profissionais, descrição do serviço, cidade, faixa de preço e formas de contato."
-  ));
-});
 
-const searchInput = document.getElementById("mainSearch");
-const typeFilter = document.getElementById("typeFilter");
-const searchBtn = document.getElementById("searchBtn");
+// ======================================================
+// BOTÃO FALAR PELO WHATSAPP
+// ======================================================
 
-function runSearch() {
-  const term = searchInput.value.trim().toLowerCase();
-  const type = typeFilter.value;
-  const cards = document.querySelectorAll(".listing-card");
-  let visible = 0;
+const whatsappButton =
+    document.getElementById("whatsapp");
 
-  cards.forEach(card => {
-    const matchesText = !term || card.dataset.search.includes(term);
-    const matchesType = type === "todos" || card.dataset.kind === type;
-    const show = matchesText && matchesType;
-    card.style.display = show ? "" : "none";
-    if (show) visible++;
-  });
 
-  document.getElementById("imoveis").scrollIntoView({behavior:"smooth"});
-  if (term && visible === 0) {
-    openModal("Nenhum resultado", "Não encontramos um anúncio com esse termo nesta demonstração. Na versão final, podemos ampliar o cadastro e a busca.");
-  }
+if (whatsappButton) {
+
+    whatsappButton.addEventListener("click", function (event) {
+
+        event.preventDefault();
+
+        abrirWhatsApp();
+
+    });
+
 }
-searchBtn.addEventListener("click", runSearch);
-searchInput.addEventListener("keydown", e => { if (e.key === "Enter") runSearch(); });
 
-document.getElementById("whatsappBtn").addEventListener("click", () => {
-  openModal("Contato", "Aqui podemos colocar o número real do WhatsApp da empresa e abrir uma conversa com uma mensagem pronta.");
+
+// ======================================================
+// BOTÃO QUERO CADASTRAR
+// ======================================================
+
+// Por enquanto ele não faz nada,
+// conforme você pediu.
+
+const registerButton =
+    document.getElementById("register");
+
+
+if (registerButton) {
+
+    registerButton.addEventListener("click", function () {
+
+        // Futuramente podemos colocar
+        // formulário de cadastro aqui.
+
+    });
+
+}
+
+
+// ======================================================
+// BOTÃO SOU PROFISSIONAL
+// ======================================================
+
+const professionalButton =
+    document.getElementById("professionalBtn");
+
+
+if (professionalButton) {
+
+    professionalButton.addEventListener("click", function (event) {
+
+        event.preventDefault();
+
+        // Por enquanto não faz nada.
+
+    });
+
+}
+
+
+// ======================================================
+// FAVORITOS
+// ======================================================
+
+document.querySelectorAll(".heart").forEach(function (button) {
+
+    button.addEventListener("click", function (event) {
+
+        event.preventDefault();
+
+        event.stopPropagation();
+
+        button.classList.toggle("saved");
+
+        if (button.classList.contains("saved")) {
+
+            button.textContent = "♥";
+
+        } else {
+
+            button.textContent = "♡";
+
+        }
+
+    });
+
 });
-document.getElementById("registerBtn").addEventListener("click", () => {
-  openModal("Cadastro", "Na próxima versão podemos criar um formulário para cadastrar imóvel ou serviço, com validação dos campos.");
+
+
+// ======================================================
+// MODAL
+// ======================================================
+
+const modal =
+    document.getElementById("modal");
+
+const closeModalButton =
+    document.getElementById("closeModal");
+
+const modalTitle =
+    document.getElementById("modalTitle");
+
+const modalText =
+    document.getElementById("modalText");
+
+const modalAction =
+    document.getElementById("modalAction");
+
+
+function abrirModal(titulo, texto) {
+
+    if (!modal) return;
+
+    modalTitle.textContent = titulo;
+
+    modalText.textContent = texto;
+
+    modalAction.textContent = "Fechar";
+
+    modal.classList.add("open");
+
+}
+
+
+function fecharModal() {
+
+    if (!modal) return;
+
+    modal.classList.remove("open");
+
+}
+
+
+if (closeModalButton) {
+
+    closeModalButton.addEventListener(
+        "click",
+        fecharModal
+    );
+
+}
+
+
+if (modalAction) {
+
+    modalAction.addEventListener(
+        "click",
+        fecharModal
+    );
+
+}
+
+
+if (modal) {
+
+    modal.addEventListener("click", function (event) {
+
+        if (event.target === modal) {
+
+            fecharModal();
+
+        }
+
+    });
+
+}
+
+
+document.addEventListener("keydown", function (event) {
+
+    if (event.key === "Escape") {
+
+        fecharModal();
+
+    }
+
 });
+
+
+// ======================================================
+// BOTÕES VER IMÓVEL
+// ======================================================
+
+document.querySelectorAll(".details").forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+        const titulo =
+            button.getAttribute("data-title") ||
+            "Imóvel";
+
+        abrirModal(
+
+            titulo,
+
+            "Este anúncio é uma demonstração do projeto. Na versão final podemos colocar localização, fotos adicionais, características, valor e contato do anunciante."
+
+        );
+
+    });
+
+});
+
+
+// ======================================================
+// SERVIÇOS
+// ======================================================
+
+document.querySelectorAll("[data-service]").forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+        const servico =
+            button.getAttribute("data-service");
+
+        abrirModal(
+
+            servico,
+
+            "Aqui podemos colocar os profissionais disponíveis para esse serviço, informações, avaliações, cidade de atendimento e formas de contato."
+
+        );
+
+    });
+
+});
+
+
+// ======================================================
+// PESQUISA
+// ======================================================
+
+const searchButton =
+    document.getElementById("searchBtn");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const category =
+    document.getElementById("category");
+
+
+function pesquisar() {
+
+    if (!searchInput || !category) return;
+
+
+    const termo =
+        searchInput.value
+            .trim()
+            .toLowerCase();
+
+
+    const categoria =
+        category.value;
+
+
+    const cards =
+        document.querySelectorAll(".property-card");
+
+
+    let encontrados = 0;
+
+
+    cards.forEach(function (card) {
+
+        const tags =
+            (card.getAttribute("data-tags") || "")
+                .toLowerCase();
+
+
+        const tipo =
+            card.getAttribute("data-kind") || "";
+
+
+        const categoriaCorreta =
+            categoria === "todos" ||
+            tipo === categoria;
+
+
+        const textoCorreto =
+            termo === "" ||
+            tags.includes(termo);
+
+
+        if (
+            categoriaCorreta &&
+            textoCorreto
+        ) {
+
+            card.style.display = "";
+
+            encontrados++;
+
+        } else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+
+    const emptyState =
+        document.getElementById("emptyState");
+
+
+    if (emptyState) {
+
+        if (encontrados === 0) {
+
+            emptyState.style.display = "block";
+
+        } else {
+
+            emptyState.style.display = "none";
+
+        }
+
+    }
+
+
+    const imoveis =
+        document.getElementById("imoveis");
+
+
+    if (imoveis) {
+
+        imoveis.scrollIntoView({
+            behavior: "smooth"
+        });
+
+    }
+
+}
+
+
+if (searchButton) {
+
+    searchButton.addEventListener(
+        "click",
+        pesquisar
+    );
+
+}
+
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Enter") {
+
+                pesquisar();
+
+            }
+
+        }
+    );
+
+}
