@@ -1,77 +1,1120 @@
-const nav = document.getElementById("nav");
-const menuToggle = document.querySelector(".menu-toggle");
-const modal = document.getElementById("modal");
-const modalTitle = document.getElementById("modalTitle");
-const modalText = document.getElementById("modalText");
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-menuToggle.addEventListener("click", () => nav.classList.toggle("open"));
-document.querySelectorAll(".nav a").forEach(link => {
-  link.addEventListener("click", () => nav.classList.remove("open"));
-});
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-document.querySelectorAll("[data-scroll]").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelector(button.dataset.scroll)?.scrollIntoView({behavior:"smooth"});
-  });
-});
+    <meta name="description"
+        content="Conectar Imóveis e Serviços - imóveis, profissionais e soluções em um só lugar.">
 
-function openModal(title, text) {
-  modalTitle.textContent = title;
-  modalText.textContent = text;
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden", "false");
-}
-function closeModal() {
-  modal.classList.remove("open");
-  modal.setAttribute("aria-hidden", "true");
-}
-document.getElementById("modalClose").addEventListener("click", closeModal);
-modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+    <title>Conectar | Imóveis & Serviços</title>
 
-document.querySelectorAll(".details").forEach(button => {
-  button.addEventListener("click", () => openModal(
-    button.dataset.title,
-    "Este anúncio é um exemplo do projeto acadêmico. Na versão final, podemos colocar fotos reais, localização, características, valor e um botão de contato."
-  ));
-});
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-document.querySelectorAll(".service-card").forEach(card => {
-  card.addEventListener("click", () => openModal(
-    card.dataset.service,
-    "Você pode transformar esta categoria em uma busca completa, mostrando profissionais, descrição do serviço, cidade, faixa de preço e formas de contato."
-  ));
-});
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
+        rel="stylesheet">
 
-const searchInput = document.getElementById("mainSearch");
-const typeFilter = document.getElementById("typeFilter");
-const searchBtn = document.getElementById("searchBtn");
+    <link rel="stylesheet" href="style.css">
+</head>
 
-function runSearch() {
-  const term = searchInput.value.trim().toLowerCase();
-  const type = typeFilter.value;
-  const cards = document.querySelectorAll(".listing-card");
-  let visible = 0;
+<body>
 
-  cards.forEach(card => {
-    const matchesText = !term || card.dataset.search.includes(term);
-    const matchesType = type === "todos" || card.dataset.kind === type;
-    const show = matchesText && matchesType;
-    card.style.display = show ? "" : "none";
-    if (show) visible++;
-  });
+    <!-- ================= HEADER ================= -->
 
-  document.getElementById("imoveis").scrollIntoView({behavior:"smooth"});
-  if (term && visible === 0) {
-    openModal("Nenhum resultado", "Não encontramos um anúncio com esse termo nesta demonstração. Na versão final, podemos ampliar o cadastro e a busca.");
-  }
-}
-searchBtn.addEventListener("click", runSearch);
-searchInput.addEventListener("keydown", e => { if (e.key === "Enter") runSearch(); });
+    <header class="header">
 
-document.getElementById("whatsappBtn").addEventListener("click", () => {
-  openModal("Contato", "Aqui podemos colocar o número real do WhatsApp da empresa e abrir uma conversa com uma mensagem pronta.");
-});
-document.getElementById("registerBtn").addEventListener("click", () => {
-  openModal("Cadastro", "Na próxima versão podemos criar um formulário para cadastrar imóvel ou serviço, com validação dos campos.");
-});
+        <div class="nav-wrap">
+
+            <a href="#inicio" class="logo">
+
+                <span class="logo-symbol">⌂</span>
+
+                <span class="logo-text">
+                    <b>Conec<span>tar</span></b>
+                    <small>IMÓVEIS & SERVIÇOS</small>
+                </span>
+
+            </a>
+
+            <button class="mobile-menu" id="mobileMenu" aria-label="Abrir menu">
+                ☰
+            </button>
+
+            <nav id="nav">
+
+                <a href="#inicio" class="active">Início</a>
+
+                <a href="#imoveis">Imóveis</a>
+
+                <a href="#servicos">Serviços</a>
+
+                <a href="#vantagens">Vantagens</a>
+
+                <a href="#sobre">Sobre</a>
+
+                <a href="#contato" class="nav-button">
+                    Fale conosco
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <!-- ================= HERO ================= -->
+
+        <section class="hero" id="inicio">
+
+            <div class="hero-content">
+
+                <div class="tag">
+                    <i></i>
+                    CONECTANDO PESSOAS E OPORTUNIDADES
+                </div>
+
+                <h1>
+                    Encontre o que
+                    <br>
+                    <em>precisa.</em> Conecte
+                    <br>
+                    com quem resolve.
+                </h1>
+
+                <p class="hero-description">
+                    Imóveis, profissionais e serviços reunidos
+                    em uma experiência simples, segura e organizada.
+                </p>
+
+
+                <!-- BUSCA -->
+
+                <div class="smart-search">
+
+                    <div class="search-main">
+
+                        <span>⌕</span>
+
+                        <input
+                            id="searchInput"
+                            type="text"
+                            placeholder="O que você está procurando?"
+                        >
+
+                    </div>
+
+
+                    <div class="search-select">
+
+                        <span>Categoria</span>
+
+                        <select id="category">
+
+                            <option value="todos">
+                                Todos
+                            </option>
+
+                            <option value="imovel">
+                                Imóveis
+                            </option>
+
+                            <option value="servico">
+                                Serviços
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <button id="searchBtn">
+                        Pesquisar
+                    </button>
+
+                </div>
+
+
+                <div class="hero-links">
+
+                    <a href="#imoveis">
+                        Explorar imóveis
+                        <b>→</b>
+                    </a>
+
+                    <a href="#servicos">
+                        Encontrar um profissional
+                        <b>→</b>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- IMAGENS HERO -->
+
+            <div class="hero-showcase">
+
+                <div class="hero-photo">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85"
+                        alt="Casa moderna"
+                    >
+
+                    <div class="photo-label">
+
+                        <b>Imóveis em destaque</b>
+
+                        <span>
+                            Confira as oportunidades disponíveis
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="mini-photo">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=700&q=85"
+                        alt="Ambiente profissional"
+                    >
+
+                </div>
+
+
+                <div class="rating-card">
+
+                    <strong>4,9</strong>
+
+                    <span>★</span>
+
+                    <small>
+                        experiência da plataforma
+                    </small>
+
+                </div>
+
+
+                <div class="floating-icon">
+                    ✓
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= NÚMEROS ================= -->
+
+        <section class="quick-stats">
+
+            <div>
+                <strong>01</strong>
+                <span>lugar para encontrar</span>
+            </div>
+
+            <div>
+                <strong>+80</strong>
+                <span>imóveis em destaque</span>
+            </div>
+
+            <div>
+                <strong>+45</strong>
+                <span>profissionais cadastrados</span>
+            </div>
+
+            <div>
+                <strong>100%</strong>
+                <span>foco em praticidade</span>
+            </div>
+
+        </section>
+
+
+        <!-- ================= IMÓVEIS ================= -->
+
+        <section class="section properties" id="imoveis">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <div class="eyebrow">
+                        ENCONTRE SEU PRÓXIMO ESPAÇO
+                    </div>
+
+                    <h2>
+                        Imóveis em destaque
+                    </h2>
+
+                    <p>
+                        Escolha entre opções para morar,
+                        trabalhar ou investir.
+                    </p>
+
+                </div>
+
+
+                <a href="#contato" class="outline">
+                    Quero anunciar
+                    <span>↗</span>
+                </a>
+
+            </div>
+
+
+            <div class="property-grid" id="propertyGrid">
+
+
+                <!-- IMÓVEL 1 -->
+
+                <article
+                    class="property-card"
+                    data-kind="imovel"
+                    data-tags="casa aluguel jardim familia residencial"
+                >
+
+                    <div class="property-img">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=85"
+                            alt="Casa moderna"
+                        >
+
+                        <span>
+                            ALUGUEL
+                        </span>
+
+                        <button class="heart">
+                            ♡
+                        </button>
+
+                    </div>
+
+
+                    <div class="property-body">
+
+                        <div class="property-type">
+                            CASA · 3 QUARTOS
+                        </div>
+
+                        <h3>
+                            Casa Jardim Família
+                        </h3>
+
+                        <p>
+                            Ambiente confortável,
+                            garagem e área externa.
+                        </p>
+
+
+                        <div class="property-meta">
+
+                            <span>⌂ 3 quartos</span>
+
+                            <span>▣ 2 vagas</span>
+
+                            <span>◫ 2 banheiros</span>
+
+                        </div>
+
+
+                        <div class="price-row">
+
+                            <strong>
+                                R$ 1.850
+                                <span>/mês</span>
+                            </strong>
+
+                            <button
+                                class="details"
+                                data-title="Casa Jardim Família"
+                            >
+                                Ver imóvel →
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- IMÓVEL 2 -->
+
+                <article
+                    class="property-card"
+                    data-kind="imovel"
+                    data-tags="apartamento centro aluguel cidade residencial"
+                >
+
+                    <div class="property-img">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=85"
+                            alt="Apartamento moderno"
+                        >
+
+                        <span>
+                            ALUGUEL
+                        </span>
+
+                        <button class="heart">
+                            ♡
+                        </button>
+
+                    </div>
+
+
+                    <div class="property-body">
+
+                        <div class="property-type">
+                            APARTAMENTO · 2 QUARTOS
+                        </div>
+
+                        <h3>
+                            Apartamento Central
+                        </h3>
+
+                        <p>
+                            Localização prática,
+                            perto de comércio e serviços.
+                        </p>
+
+
+                        <div class="property-meta">
+
+                            <span>⌂ 2 quartos</span>
+
+                            <span>▣ 1 vaga</span>
+
+                            <span>◫ 2 banheiros</span>
+
+                        </div>
+
+
+                        <div class="price-row">
+
+                            <strong>
+                                R$ 1.450
+                                <span>/mês</span>
+                            </strong>
+
+                            <button
+                                class="details"
+                                data-title="Apartamento Central"
+                            >
+                                Ver imóvel →
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- IMÓVEL 3 -->
+
+                <article
+                    class="property-card"
+                    data-kind="imovel"
+                    data-tags="sala comercial escritorio empresa"
+                >
+
+                    <div class="property-img">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85"
+                            alt="Escritório moderno"
+                        >
+
+                        <span>
+                            COMERCIAL
+                        </span>
+
+                        <button class="heart">
+                            ♡
+                        </button>
+
+                    </div>
+
+
+                    <div class="property-body">
+
+                        <div class="property-type">
+                            SALA COMERCIAL · 48 M²
+                        </div>
+
+                        <h3>
+                            Espaço Conecta
+                        </h3>
+
+                        <p>
+                            Ambiente pronto para escritório,
+                            consultório ou negócio.
+                        </p>
+
+
+                        <div class="property-meta">
+
+                            <span>▣ 48 m²</span>
+
+                            <span>⌂ central</span>
+
+                            <span>✓ pronto</span>
+
+                        </div>
+
+
+                        <div class="price-row">
+
+                            <strong>
+                                R$ 1.200
+                                <span>/mês</span>
+                            </strong>
+
+                            <button
+                                class="details"
+                                data-title="Espaço Conecta"
+                            >
+                                Ver imóvel →
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <div
+                class="empty-state"
+                id="emptyState"
+            >
+                Nenhum resultado encontrado.
+                Tente outra palavra ou categoria.
+            </div>
+
+        </section>
+
+
+        <!-- ================= SERVIÇOS ================= -->
+
+        <section class="services" id="servicos">
+
+            <div class="services-top">
+
+                <div>
+
+                    <div class="eyebrow orange">
+                        SERVIÇOS PROFISSIONAIS
+                    </div>
+
+                    <h2>
+                        Quem resolve,
+                        <br>
+                        <em>está aqui.</em>
+                    </h2>
+
+                </div>
+
+
+                <p>
+                    Não é só uma lista de serviços.
+                    É uma forma organizada de encontrar
+                    profissionais para diferentes necessidades
+                    do dia a dia.
+                </p>
+
+            </div>
+
+
+            <div class="service-layout">
+
+
+                <!-- SERVIÇO DESTAQUE -->
+
+                <div class="service-feature">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=85"
+                        alt="Profissional de construção"
+                    >
+
+
+                    <div class="feature-overlay">
+
+                        <span>
+                            DESTAQUE
+                        </span>
+
+                        <h3>
+                            Construção & reformas
+                        </h3>
+
+                        <p>
+                            Do pequeno reparo à transformação
+                            do ambiente.
+                        </p>
+
+                        <button
+                            data-service="Construção e reformas"
+                        >
+                            Encontrar profissional
+                            <b>→</b>
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LISTA DE SERVIÇOS -->
+
+                <div class="service-list">
+
+
+                    <button
+                        class="service-item"
+                        data-service="Limpeza e conservação"
+                    >
+
+                        <span class="service-icon">
+                            ✦
+                        </span>
+
+                        <span>
+
+                            <b>
+                                Limpeza & conservação
+                            </b>
+
+                            <small>
+                                Residencial e comercial
+                            </small>
+
+                        </span>
+
+                        <i>↗</i>
+
+                    </button>
+
+
+                    <button
+                        class="service-item"
+                        data-service="Manutenção e reparos"
+                    >
+
+                        <span class="service-icon">
+                            ⌁
+                        </span>
+
+                        <span>
+
+                            <b>
+                                Manutenção & reparos
+                            </b>
+
+                            <small>
+                                Elétrica, hidráulica e geral
+                            </small>
+
+                        </span>
+
+                        <i>↗</i>
+
+                    </button>
+
+
+                    <button
+                        class="service-item"
+                        data-service="Jardinagem"
+                    >
+
+                        <span class="service-icon">
+                            ⌁
+                        </span>
+
+                        <span>
+
+                            <b>
+                                Jardinagem
+                            </b>
+
+                            <small>
+                                Cuidados e manutenção
+                            </small>
+
+                        </span>
+
+                        <i>↗</i>
+
+                    </button>
+
+
+                    <button
+                        class="service-item"
+                        data-service="Beleza e bem-estar"
+                    >
+
+                        <span class="service-icon">
+                            ✧
+                        </span>
+
+                        <span>
+
+                            <b>
+                                Beleza & bem-estar
+                            </b>
+
+                            <small>
+                                Profissionais especializados
+                            </small>
+
+                        </span>
+
+                        <i>↗</i>
+
+                    </button>
+
+
+                    <button
+                        class="service-item"
+                        data-service="Tecnologia"
+                    >
+
+                        <span class="service-icon">
+                            ⌘
+                        </span>
+
+                        <span>
+
+                            <b>
+                                Tecnologia
+                            </b>
+
+                            <small>
+                                Suporte e soluções digitais
+                            </small>
+
+                        </span>
+
+                        <i>↗</i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="service-bottom">
+
+                <div>
+                    <span>01</span>
+                    <b>Escolha uma categoria</b>
+                    <small>Encontre o serviço que procura.</small>
+                </div>
+
+                <div>
+                    <span>02</span>
+                    <b>Compare profissionais</b>
+                    <small>Veja informações antes de decidir.</small>
+                </div>
+
+                <div>
+                    <span>03</span>
+                    <b>Entre em contato</b>
+                    <small>Converse diretamente com quem oferece.</small>
+                </div>
+
+                <a href="#" id="professionalBtn">
+                    Sou profissional
+                    <b>→</b>
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= VANTAGENS ================= -->
+
+        <section
+            class="advantages"
+            id="vantagens"
+        >
+
+            <div class="section-heading center">
+
+                <div>
+
+                    <div class="eyebrow">
+                        POR QUE CONECTAR?
+                    </div>
+
+                    <h2>
+                        Uma experiência pensada
+                        para facilitar.
+                    </h2>
+
+                    <p>
+                        Organização e praticidade para quem
+                        procura e para quem oferece.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="advantage-grid">
+
+                <article>
+
+                    <span>⌕</span>
+
+                    <h3>
+                        Busca inteligente
+                    </h3>
+
+                    <p>
+                        Encontre por categoria e use palavras-chave
+                        para chegar mais rápido ao que procura.
+                    </p>
+
+                </article>
+
+
+                <article>
+
+                    <span>✓</span>
+
+                    <h3>
+                        Informações claras
+                    </h3>
+
+                    <p>
+                        Anúncios organizados para você entender
+                        a oferta antes de entrar em contato.
+                    </p>
+
+                </article>
+
+
+                <article>
+
+                    <span>↗</span>
+
+                    <h3>
+                        Contato direto
+                    </h3>
+
+                    <p>
+                        Mais facilidade para aproximar clientes,
+                        proprietários e profissionais.
+                    </p>
+
+                </article>
+
+
+                <article>
+
+                    <span>◉</span>
+
+                    <h3>
+                        Mais oportunidades
+                    </h3>
+
+                    <p>
+                        Um espaço para divulgar imóveis e serviços
+                        e alcançar novos clientes.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SOBRE ================= -->
+
+        <section
+            class="about"
+            id="sobre"
+        >
+
+            <div class="about-photo">
+
+                <img
+                    src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1100&q=85"
+                    alt="Equipe trabalhando"
+                >
+
+                <div class="about-badge">
+
+                    <strong>
+                        Conectar
+                    </strong>
+
+                    <span>
+                        pessoas · oportunidades · soluções
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="about-text">
+
+                <div class="eyebrow">
+                    SOBRE A IDEIA
+                </div>
+
+                <h2>
+                    Mais do que anunciar.
+                    <br>
+                    <em>É conectar.</em>
+                </h2>
+
+                <p>
+                    A Conectar Imóveis e Serviços nasceu com
+                    a proposta de reunir, em um único ambiente,
+                    oportunidades de imóveis e profissionais
+                    de diferentes áreas.
+                </p>
+
+                <p>
+                    A plataforma facilita a busca, organiza
+                    as informações e aproxima quem precisa
+                    de uma solução de quem pode oferecê-la.
+                </p>
+
+
+                <div class="mission">
+
+                    <b>
+                        MISSÃO
+                    </b>
+
+                    <span>
+                        Facilitar encontros entre pessoas,
+                        negócios e oportunidades por meio
+                        de uma plataforma simples e organizada.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CONTATO ================= -->
+
+        <section
+            class="contact"
+            id="contato"
+        >
+
+            <div class="contact-inner">
+
+                <div>
+
+                    <div class="eyebrow light">
+                        FAÇA PARTE DA CONECTAR
+                    </div>
+
+                    <h2>
+                        Tem um imóvel ou serviço
+                        para divulgar?
+                    </h2>
+
+                    <p>
+                        Cadastre sua oportunidade e faça
+                        parte da plataforma.
+                    </p>
+
+                </div>
+
+
+                <div class="contact-buttons">
+
+                    <!-- WHATSAPP FUNCIONA DIRETAMENTE -->
+
+                    <a
+                        href="#"
+                        id="whatsapp"
+                        class="btn-light"
+                    >
+                        Falar pelo WhatsApp
+                        <b>→</b>
+                    </a>
+
+
+                    <!-- DEIXADO SEM FUNÇÃO POR ENQUANTO -->
+
+                    <button
+                        class="btn-outline-light"
+                        id="register"
+                        type="button"
+                    >
+                        Quero cadastrar
+                        <b>→</b>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-main">
+
+            <a
+                href="#inicio"
+                class="logo footer-logo"
+            >
+
+                <span class="logo-symbol">
+                    ⌂
+                </span>
+
+                <span class="logo-text">
+
+                    <b>
+                        Conec<span>tar</span>
+                    </b>
+
+                    <small>
+                        IMÓVEIS & SERVIÇOS
+                    </small>
+
+                </span>
+
+            </a>
+
+            <p>
+                Conectando pessoas,
+                oportunidades e soluções.
+            </p>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <b>Explorar</b>
+
+            <a href="#imoveis">
+                Imóveis
+            </a>
+
+            <a href="#servicos">
+                Serviços
+            </a>
+
+            <a href="#vantagens">
+                Vantagens
+            </a>
+
+        </div>
+
+
+        <div class="footer-col">
+
+            <b>Empresa</b>
+
+            <a href="#sobre">
+                Sobre
+            </a>
+
+            <a href="#contato">
+                Contato
+            </a>
+
+            <a href="#inicio">
+                Início
+            </a>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            © 2026 Conectar Imóveis e Serviços
+            · Projeto acadêmico de Técnico em Administração
+
+        </div>
+
+    </footer>
+
+
+    <!-- ================= MODAL ================= -->
+
+    <div
+        class="modal"
+        id="modal"
+    >
+
+        <div class="modal-box">
+
+            <button
+                class="close"
+                id="closeModal"
+                type="button"
+            >
+                ×
+            </button>
+
+            <div class="eyebrow">
+                CONECTAR
+            </div>
+
+            <h2 id="modalTitle">
+                Detalhes
+            </h2>
+
+            <p id="modalText">
+                Mais informações.
+            </p>
+
+            <button
+                class="modal-btn"
+                id="modalAction"
+                type="button"
+            >
+                Fechar
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
