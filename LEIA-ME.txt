@@ -1,0 +1,40 @@
+CONECTA SERVIÇOS - como colocar no ar
+
+PARTE 1 - Ver o site no computador
+1. Descompacte o zip (extraia TODA a pasta) e abra "conecta-servicos" no VS Code.
+2. Clique com o botão direito em index.html > "Open with Live Server".
+   Sem configurar nada, o site abre em MODO DE TESTE: os dados ficam só no seu navegador.
+   (No modo de teste, a primeira conta criada vira administradora, só para você testar.)
+
+PARTE 2 - Banco de dados online (para todos verem os mesmos anúncios)
+1. Crie uma conta grátis em https://supabase.com e clique em "New project".
+2. No menu "SQL Editor": cole TODO o arquivo 1-banco-de-dados.sql e clique em RUN.
+3. Vá em Authentication > Sign In / Providers > Email e DESLIGUE "Confirm email".
+4. Vá em Project Settings > API. Copie "Project URL" e a chave "anon public".
+5. Abra js/script.js e cole nas linhas do começo:
+       var SUPABASE_URL="cole aqui a URL";
+       var SUPABASE_KEY="cole aqui a chave anon public";
+   (A chave "anon public" pode ficar no site. NUNCA cole a chave "service_role".)
+6. Abra o site, clique em "Entrar ou Cadastrar" > Cadastrar, e crie a SUA conta:
+   nome Rafael, WhatsApp 34991483936 e a sua senha.
+7. Volte ao SQL Editor, cole o arquivo 2-tornar-administrador.sql e clique em RUN.
+   Pronto: sua conta é administradora (aparece o selo "Administrador" em "Minha conta").
+   Faça os passos 6 e 7 logo no começo, antes de divulgar o site.
+
+PARTE 3 - Publicar na internet
+Envie a pasta inteira para uma hospedagem de site estático (Netlify, Vercel ou GitHub Pages).
+
+REGRAS DO SITE
+- Qualquer pessoa vê os anúncios. Para anunciar ou criar categoria é preciso ter conta.
+- Cada pessoa só exclui os próprios anúncios e categorias. O administrador exclui qualquer um.
+  Essas regras ficam no banco de dados (não dá para burlar pelo navegador).
+- Excluir uma categoria também exclui os anúncios dela.
+- O login é pelo número de WhatsApp + senha.
+- Favoritos ficam salvos no aparelho de cada pessoa.
+
+PERSONALIZAR (começo do js/script.js)
+  WHATS  - WhatsApp do site (55 + DDD + número)
+  SOC    - links de Instagram, Facebook e YouTube
+
+ESTRUTURA
+  index.html   css/style.css   js/script.js   img/   1-banco-de-dados.sql   2-tornar-administrador.sql
